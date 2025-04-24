@@ -172,7 +172,7 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
                   className={styles.categoryText}
                   opacity="0"
                 >
-                  {point.category}
+                  {point.label}
                 </text>
               )}
             </g>

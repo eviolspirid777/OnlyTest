@@ -70,6 +70,7 @@
   gap: 155px;
   margin: 0 auto;
   padding-left: 60px;
+  padding-right: 60px;
 }
 
 .timeline__event {
@@ -196,4 +197,41 @@
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+.timeline__events :global(.swiper-button-prev),
+.timeline__events :global(.swiper-button-next) {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 15px 10px #3877EE1A;
+  color: transparent;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.timeline__events :global(.swiper-button-prev)::after,
+.timeline__events :global(.swiper-button-next)::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--timeline-color-primary);
+  border-bottom: 2px solid var(--timeline-color-primary);
+  position: absolute;
+}
+
+.timeline__events :global(.swiper-button-prev)::after {
+  transform: rotate(135deg);
+  margin-left: 5px;
+}
+
+.timeline__events :global(.swiper-button-next)::after {
+  transform: rotate(-45deg);
+  margin-left: -5px;
+}
+
+.timeline__events :global(.swiper-button-disabled) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  cursor: default;
 } 

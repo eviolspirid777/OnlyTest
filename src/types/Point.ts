@@ -1,7 +1,14 @@
 export interface Point {
   id: number;
   label: string;
-  category: string;
+  date: {
+    minDate: number;
+    maxDate: number;
+  },
+  events: {
+    date: string;
+    description: string;
+  }[]
 }
 
 export interface PointWithRef extends Point {
