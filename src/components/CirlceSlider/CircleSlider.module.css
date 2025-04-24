@@ -1,0 +1,51 @@
+.circleSlider {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 1;
+}
+
+.circleSlider__svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Анимация для точек */
+.point-group circle {
+  transition: all 0.3s ease;
+}
+
+.point-group:hover circle:first-child {
+  r: 6;
+}
+
+/* Анимация для текста */
+.point-group text {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.point-group:hover text {
+  opacity: 1;
+}
+
+.pointGroup {
+  cursor: pointer;
+}
+
+.point, .innerPoint {
+  will-change: r, fill, opacity;
+}
+
+.categoryText {
+  font-family: 'PT Sans', sans-serif;
+  will-change: opacity;
+  pointer-events: none;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: 0%;
+} 
