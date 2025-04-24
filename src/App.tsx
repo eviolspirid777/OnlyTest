@@ -56,6 +56,10 @@ export const App = () => {
     changePointStatus(mockPoints[id - 1]);
   };
 
+  const handleCategoryLeave = () => {
+    setHoveredCategory(null);
+  }
+
   return (
     <div className={styles.timeline}>
       <div className={styles.timeline__header}>
@@ -79,6 +83,7 @@ export const App = () => {
           hoveredPoint={hoveredCategory}
           onPointClick={handleCategorySelect}
           onPointHover={handleCategoryHover}
+          onPointLeave={handleCategoryLeave}
         />
       </div>
 
@@ -120,7 +125,7 @@ export const App = () => {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
         }}
-        spaceBetween={50}
+        spaceBetween={150}
         slidesPerView={3}
         onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}

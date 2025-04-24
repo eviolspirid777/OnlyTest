@@ -134,16 +134,13 @@
   display: flex;
   padding-left: 0.5%;
   font-family: "PT Sans";
-  font-weight: 400;
-  font-size: 16px;
+  font-weight: 700;
+  font-size: 17px;
   line-height: 100%;
   letter-spacing: 0%;
   color: var(--timeline-color-text);
 
   span {
-      font-family: "PT Sans";
-      font-weight: 400;
-      font-size: 16px;
       line-height: 100%;
       letter-spacing: 0%;
       color: var(--timeline-color-text);

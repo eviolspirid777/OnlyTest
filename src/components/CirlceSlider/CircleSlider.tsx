@@ -9,6 +9,7 @@ interface CircleSliderProps {
   hoveredPoint: number | null;
   onPointClick: (id: number) => void;
   onPointHover: (id: number) => void;
+  onPointLeave: () => void
 }
 
 export const CircleSlider: React.FC<CircleSliderProps> = ({
@@ -17,6 +18,7 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
   hoveredPoint,
   onPointClick,
   onPointHover,
+  onPointLeave,
 }) => {
   const radius = 265;
   const center = 300;
@@ -42,7 +44,7 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
           }
 
           timeline.to(mainPoint, {
-            attr: { r: isActive ? 20 : 3 },
+            attr: { r: isActive ? 25 : 3 },
             fill: isActive ? '#303E5880' : '#42567A',
             duration: 0.5,
             ease: "power2.inOut"
@@ -67,7 +69,7 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
           }
 
           timeline.to(innerPoint, {
-            attr: { r: isActive ? 19 : 3 },
+            attr: { r: isActive ? 24 : 3 },
             opacity: isActive ? 1 : 0,
             duration: 0.5,
             ease: "power2.inOut"
@@ -93,6 +95,15 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
     prevPointRef.current = hoveredPoint;
   }, [hoveredPoint, points]);
 
+  const handleRotateContainer = (id: number) => {
+    //TODO: Вот здесь продумай логику перевертывания круговой штуки
+    const container = document.querySelector(`.${styles.circleSlider}`) as HTMLDivElement;
+    
+    gsap.to(container, {
+      rotateZ: 30 * id
+    })
+  }
+
   const getPointCoordinates = (index: number, totalPoints: number) => {
     const angle = (index * 360) / totalPoints;
     const radian = (angle - 90) * (Math.PI / 180) + 11;
@@ -104,7 +115,9 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
   };
 
   return (
-    <div className={styles.circleSlider}>
+    <div
+      className={styles.circleSlider}
+    >
       <svg
         viewBox="0 0 600 600"
         className={styles.circleSlider__svg}
@@ -124,11 +137,14 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
           const isActive = point.id === currentPoint;
 
           return (
-            <g 
+            <g
               key={point.id} 
               ref={point.ref}
               transform={`translate(${x},${y})`}
               className={styles.pointGroup}
+              onMouseEnter={onPointHover.bind(null, point.id)}
+              onMouseLeave={onPointLeave}
+              onClick={handleRotateContainer.bind(null, point.id)}
             >
               {/* Кликабельная область */}
               <circle
@@ -136,7 +152,6 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
                 fill="transparent"
                 className={styles.hitArea}
                 onClick={onPointClick.bind(null, point.id)}
-                onMouseEnter={onPointHover.bind(null, point.id)}
               />
 
               {/* Основная точка */}
@@ -163,7 +178,6 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
                 {point.id}
               </text>
 
-              {/* Текст категории (только для активной точки) */}
               {isActive && (
                 <text
                   x="25"
