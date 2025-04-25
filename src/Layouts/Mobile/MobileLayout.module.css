@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap");
+
+.mobile-container {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 20px;
+  padding: 40px 20px;
+  max-width: 319px;
+  overflow-x: hidden;
+
+  div > hr {
+    width: 94%;
+    justify-content: flex-start;
+    color: var(--border-color);
+    border: 1px solid var(--border-color);
+  }
+  
+  div > h3 {
+    font-family: "PT Sans";
+    padding-left: 6px;
+    font-size: 15px;
+    color: var(--timeline-color-text);
+  }
+}
+
+.mobile-container-header {
+  font-family: "PT Sans";
+  font-size: 20px;
+  width: 123px;
+  color: var(--timeline-color-text);
+}
+
+.timeline__years {
+  display: flex;
+  justify-content: flex-start;
+  gap: 30px;
+  margin: 30px 0px;
+}
+
+.timeline__year {
+  font-size: 50px;
+  font-weight: 700;
+}
+
+.timeline__year--start {
+  color: var(--timeline-color-primary);
+}
+
+.timeline__year--end {
+  color: var(--timeline-color-secondary);
+}
+
+.timeline__date {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Bebas Neue";
+  text-transform: uppercase;
+  color: var(--timeline-color-primary);
+  margin-bottom: 15px;
+}
+
+.timeline__description {
+  font-size: 14px;
+  width: auto;
+  max-width: 205px;
+  text-align: justify;
+  line-height: 1.5;
+  color: var(--timeline-color-text);
+}
+
+.navigation-buttons-block {
+  display: flex;
+  gap: 7px;
+}
+
+.navigation-block {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.navigation-block-title {
+  color: var(--timeline-color-text);
+  font-family: "PT Sans";
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0%;
+}
+
+:global(.swiper-button-prev-mobile),
+:global(.swiper-button-next-mobile) {
+  position: relative;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid #42567A80;
+  color: transparent;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+:global(.swiper-button-prev-mobile)::after,
+:global(.swiper-button-next-mobile)::after {
+  content: "";
+  position: absolute;
+  left: 40%;
+  top: 35%;
+  width: 5px;
+  height: 5px;
+  border-right: 2px solid var(--timeline-color-text);
+  border-bottom: 2px solid var(--timeline-color-text);
+  position: absolute;
+}
+
+:global(.swiper-button-prev-mobile)::after {
+  transform: rotate(135deg);
+}
+
+:global(.swiper-button-next-mobile)::after {
+  transform: rotate(-45deg);
+  margin-left: -2px;
+}
+
+:global(.swiper-button-disabled) {
+  opacity: 0.5 !important;
+  cursor: default;
+}
+
+@media (max-width: 277px) {
+  .timeline__years {
+    display: flex;
+    flex-flow: column nowrap;
+  }
+}

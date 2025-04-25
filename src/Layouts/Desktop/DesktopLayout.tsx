@@ -129,8 +129,6 @@ export const DesktopLayout = () => {
         }}
         spaceBetween={150}
         slidesPerView={3}
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
       >
         {points[currentStep - 1].events.map((event, index) => (
           <SwiperSlide key={index} className={styles.timeline__event}>

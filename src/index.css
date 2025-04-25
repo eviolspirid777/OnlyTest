@@ -1,3 +1,10 @@
+:root {
+  --timeline-color-primary: #3877EE;
+  --timeline-color-secondary: #EF5DA8;
+  --timeline-color-text: #42567A;
+  --border-color: #C7CDD9;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +17,10 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+div.swiper-wrapper {
+  div.swiper-slide-next, div.swiper-slide-prev {
+    opacity: 0.5;
+  }
 }

@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
 
-:root {
-  --timeline-color-primary: #3877EE;
-  --timeline-color-secondary: #EF5DA8;
-  --timeline-color-text: #42567A;
-}
-
 .timeline {
   font-family: 'PT Sans', sans-serif;
   max-width: 1440px;
