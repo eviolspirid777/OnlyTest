@@ -9,7 +9,8 @@ interface CircleSliderProps {
   hoveredPoint: number | null;
   onPointClick: (id: number) => void;
   onPointHover: (id: number) => void;
-  onPointLeave: () => void
+  onPointLeave: () => void;
+  onPointsReorder?: (newPoints: PointWithRef[]) => void;
 }
 
 export const CircleSlider: React.FC<CircleSliderProps> = ({
@@ -19,6 +20,7 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
   onPointClick,
   onPointHover,
   onPointLeave,
+  onPointsReorder
 }) => {
   const radius = 265;
   const center = 300;
@@ -35,7 +37,6 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
         // Анимация основной точки
         const mainPoint = point.ref.current.querySelector(`.${styles.point}`);
         if (mainPoint) {
-          // Устанавливаем начальный размер
           if (isActive && !wasActive) {
             gsap.set(mainPoint, {
               attr: { r: 3 },
@@ -55,13 +56,11 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
         const innerPoint = point.ref.current.querySelector(`.${styles.innerPoint}`);
         if (innerPoint) {
           if (isActive && !wasActive) {
-            // Для новой активной точки начинаем с нуля
             gsap.set(innerPoint, {
               attr: { r: 3 },
               opacity: 0
             });
           } else if (!isActive && wasActive) {
-            // Для деактивируемой точки начинаем с текущего состояния
             gsap.set(innerPoint, {
               attr: { r: 19 },
               opacity: 1
@@ -95,13 +94,67 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
     prevPointRef.current = hoveredPoint;
   }, [hoveredPoint, points]);
 
+  const calculateNewPoints = (
+    array: PointWithRef[], 
+    startIndex: number, 
+    destinyIndex: number
+  ): { steps: number; newArray: PointWithRef[] } => {
+    const startPos = array.findIndex(point => point.id === startIndex);
+    const destinyPos = array.findIndex(point => point.id === destinyIndex);
+    
+    if (startPos === -1 || destinyPos === -1) return { steps: 0, newArray: array };
+    
+    // Создаем копию массива для манипуляций
+    const newArray = [...array];
+    let steps = 0;
+    
+    // Если текущая позиция больше целевой, нужно пройти через конец массива
+    if (startPos > destinyPos) {
+      steps = array.length - startPos + destinyPos;
+      
+      // Перемещаем элементы через конец массива
+      for (let i = 0; i < steps; i++) {
+        const lastElement = newArray.pop()!;
+        newArray.unshift(lastElement);
+      }
+    } else {
+      steps = destinyPos - startPos;
+      
+      // Перемещаем элементы вправо
+      for (let i = 0; i < steps; i++) {
+        const firstElement = newArray.shift()!;
+        newArray.push(firstElement);
+      }
+    }
+    
+    return { steps, newArray };
+  }
+
   const handleRotateContainer = (id: number) => {
-    //TODO: Вот здесь продумай логику перевертывания круговой штуки
+    const targetPointId = points[2].id;
+    
+    const { steps, newArray } = calculateNewPoints(points, id, targetPointId);
+    
+    const anglePerStep = 360 / points.length;
+    const rotationAngle = steps * anglePerStep;
+
     const container = document.querySelector(`.${styles.circleSlider}`) as HTMLDivElement;
     
     gsap.to(container, {
-      rotateZ: 30 * id
-    })
+      rotateZ: rotationAngle,
+      duration: 1,
+      ease: "power2.inOut",
+      onComplete: () => {
+        if (onPointsReorder) {
+          onPointsReorder(newArray);
+          
+          gsap.set(container, {
+            rotateZ: 0,
+            duration: 0
+          });
+        }
+      }
+    });
   }
 
   const getPointCoordinates = (index: number, totalPoints: number) => {
@@ -115,9 +168,7 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
   };
 
   return (
-    <div
-      className={styles.circleSlider}
-    >
+    <div className={styles.circleSlider}>
       <svg
         viewBox="0 0 600 600"
         className={styles.circleSlider__svg}
@@ -195,4 +246,4 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
       </svg>
     </div>
   );
-}; 
+};
