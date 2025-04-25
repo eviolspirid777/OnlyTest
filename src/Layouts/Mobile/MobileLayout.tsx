@@ -33,6 +33,8 @@ export const MobileLayout = () => {
       </div>
       <div>
         <Swiper
+          observer
+          observeParents
           modules={[Navigation, Pagination]}
           pagination={{
             clickable: true,
