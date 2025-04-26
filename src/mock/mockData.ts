@@ -42,8 +42,8 @@ export const mockPoints: PointWithRef[] = [
     label: "Литература",
     ref: createRef<SVGGElement>(),
     date: {
-      minDate: 1987,
-      maxDate: 1991
+      minDate: 1997,
+      maxDate: 2001
     },
     events: [
       {
@@ -65,8 +65,8 @@ export const mockPoints: PointWithRef[] = [
     label: "Театр",
     ref: createRef<SVGGElement>(),
     date: {
-      minDate: 1987,
-      maxDate: 1991
+      minDate: 2007,
+      maxDate: 2011
     },
     events: [
       {
@@ -80,8 +80,8 @@ export const mockPoints: PointWithRef[] = [
     label: "Музыка",
     ref: createRef<SVGGElement>(),
     date: {
-      minDate: 1987,
-      maxDate: 1991
+      minDate: 2012,
+      maxDate: 2018
     },
     events: [
       {
@@ -95,8 +95,8 @@ export const mockPoints: PointWithRef[] = [
     label: "Наука",
     ref: createRef<SVGGElement>(),
     date: {
-      minDate: 1987,
-      maxDate: 1991
+      minDate: 2019,
+      maxDate: 2023
     },
     events: [
       {
@@ -110,8 +110,8 @@ export const mockPoints: PointWithRef[] = [
     label: "Искусство",
     ref: createRef<SVGGElement>(),
     date: {
-      minDate: 1987,
-      maxDate: 1991
+      minDate: 2024,
+      maxDate: 2030
     },
     events: [
       {

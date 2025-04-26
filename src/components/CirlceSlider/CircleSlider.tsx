@@ -147,7 +147,7 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
       onComplete: () => {
         if (onPointsReorder) {
           onPointsReorder(newArray);
-          
+          onPointClick(id);
           gsap.set(container, {
             rotateZ: 0,
             duration: 0
@@ -202,7 +202,6 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
                 r="21"
                 fill="transparent"
                 className={styles.hitArea}
-                onClick={onPointClick.bind(null, point.id)}
               />
 
               {/* Основная точка */}
@@ -231,7 +230,7 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
 
               {isActive && (
                 <text
-                  x="25"
+                  x="35"
                   y="5"
                   fill="#42567A"
                   className={styles.categoryText}

@@ -1,37 +1,51 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import { AnimatedNumber } from "../../components/AnimatedNumber/AnimatedNumber";
-import { useState } from "react";
+import { Reducer, useReducer } from "react";
 import { mockPoints } from "../../mock/mockData";
+import { PointWithRef } from "../../types/Point";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import styles from "./MobileLayout.module.css";
 
+const reducer = (state: PointWithRef, action: number) => {
+  return mockPoints[action];
+};
+
 export const MobileLayout = () => {
-  const [startYear, setStartYear] = useState(1900);
-  const [endYear, setEndYear] = useState(2024);
-  const [currentSlide, setCurrentSlide] = useState(1);
+  const [point, setPoint] = useReducer<Reducer<PointWithRef, number>>(
+    reducer,
+    mockPoints[0]
+  );
+
+  const handleNextDate = () => {
+    point.id < mockPoints.length && setPoint(point.id);
+  };
+
+  const handlePreviousDate = () => {
+    point.id !== 1 && setPoint(point.id - 2);
+  };
 
   return (
     <div className={styles["mobile-container"]}>
       <h1 className={styles["mobile-container-header"]}>Исторические даты</h1>
       <div className={styles["timeline__years"]}>
         <AnimatedNumber
-          value={startYear}
+          value={point.date.minDate}
           className={`${styles.timeline__year} ${styles["timeline__year--start"]}`}
         />
         <AnimatedNumber
-          value={endYear}
+          value={point.date.maxDate}
           className={`${styles.timeline__year} ${styles["timeline__year--end"]}`}
         />
       </div>
       <div>
-        <h3>{mockPoints[0].label}</h3>
+        <h3>{point.label}</h3>
         <hr />
       </div>
-      <div>
+      <div className={styles["swiper-block"]}>
         <Swiper
           observer
           observeParents
@@ -39,15 +53,11 @@ export const MobileLayout = () => {
           pagination={{
             clickable: true,
           }}
-          navigation={{
-            nextEl: ".swiper-button-next-mobile",
-            prevEl: ".swiper-button-prev-mobile",
-          }}
           slidesPerView={1.5}
           spaceBetween={40}
         >
-          {mockPoints[0].events.map((event) => (
-            <SwiperSlide>
+          {point.events.map((event, id) => (
+            <SwiperSlide key={id}>
               <div className={styles.timeline__date}>{event.date}</div>
               <p className={styles.timeline__description}>
                 {event.description}
@@ -57,11 +67,17 @@ export const MobileLayout = () => {
         </Swiper>
         <div className={styles["navigation-block"]}>
           <span className={styles["navigation-block-title"]}>
-            {currentSlide}/{mockPoints[0].events.length}
+            {point.id}/{mockPoints[0].events.length}
           </span>
           <div className={styles["navigation-buttons-block"]}>
-            <div className="swiper-button-prev-mobile" />
-            <div className="swiper-button-next-mobile" />
+            <div
+              className="swiper-button-prev-mobile"
+              onClick={handlePreviousDate}
+            />
+            <div
+              className="swiper-button-next-mobile"
+              onClick={handleNextDate}
+            />
           </div>
         </div>
       </div>

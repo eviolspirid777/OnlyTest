@@ -1,40 +1,32 @@
-import { useState } from 'react';
+import { Reducer, useReducer, useState } from 'react';
 import { AnimatedNumber } from '../../components/AnimatedNumber/AnimatedNumber';
 import { CircleSlider } from '../../components/CirlceSlider/CircleSlider';
 import type { PointWithRef } from '../../types/Point';
 import gsap from 'gsap';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
+import { mockPoints } from '../../mock/mockData';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import styles from './DesktopLayout.module.css';
 
-import { mockPoints } from '../../mock/mockData';
-
 export const DesktopLayout = () => {
-  //TODO: Можно упростить и сделать так, чтобы просто хранилась выбранная запись, а не все стейты по отдельности
   const [points, setPoints] = useState(mockPoints);
-  const [currentStep, setCurrentStep] = useState(points[0].id);
-  const [startYear, setStartYear] = useState(points[currentStep - 1].date.minDate);
-  const [endYear, setEndYear] = useState(points[currentStep - 1].date.maxDate);
-  const [currentCategory, setCurrentCategory] = useState(1);
-  const [hoveredCategory, setHoveredCategory] = useState<number | null>(null);
+  const reducer = (state: PointWithRef, action: number) => {
+    return mockPoints[action]
+  }
+  const [point, setPoint] = useReducer<Reducer<PointWithRef, number>>(reducer, points[0])
+
+  const [currentCategory, setCurrentCategory] = useState(points[2].id);
+  const [hoveredCategory, setHoveredCategory] = useState<number | null>(points[2].id);
 
   const handlePrevClick = () => {
-    if (currentStep > 1) {
-      setCurrentStep(prev => prev - 1);
-      setStartYear(prev => prev - 10);
-      setEndYear(prev => prev - 10);
-    }
+    point.id !== 1 && setPoint(point.id - 2);
   };
 
   const handleNextClick = () => {
-    if (currentStep < 6) {
-      setCurrentStep(prev => prev + 1);
-      setStartYear(prev => prev + 10);
-      setEndYear(prev => prev + 10);
-    }
+    point.id < points.length && setPoint(point.id);
   };
 
   const changePointStatus = (point: PointWithRef) => {
@@ -49,16 +41,18 @@ export const DesktopLayout = () => {
 
   const handleCategorySelect = (id: number) => {
     setCurrentCategory(id);
-    changePointStatus(mockPoints[id - 1]);
+    setPoint(id - 1)
+    changePointStatus(points[id - 1]);
   };
 
   const handleCategoryHover = (id: number) => {
     setHoveredCategory(id);
-    changePointStatus(mockPoints[id - 1]);
+    changePointStatus(points[id - 1]);
   };
 
   const handleCategoryLeave = () => {
-    setHoveredCategory(null);
+    setHoveredCategory(points[2].id);
+    setCurrentCategory(points[2].id)
   }
 
   return (
@@ -70,11 +64,11 @@ export const DesktopLayout = () => {
       <div className={styles.timeline__content}>
         <div className={styles.timeline__years}>
           <AnimatedNumber 
-            value={startYear} 
+            value={point.date.minDate} 
             className={`${styles.timeline__year} ${styles['timeline__year--start']}`}
           />
           <AnimatedNumber 
-            value={endYear}
+            value={point.date.maxDate}
             className={`${styles.timeline__year} ${styles['timeline__year--end']}`}
           />
         </div>
@@ -92,7 +86,7 @@ export const DesktopLayout = () => {
       <div className={styles.timeline__controls}>
         <div className={styles.timeline__controls__counter__block}>
           <span className={styles.timeline__controls__counter__current}>
-            {currentStep}
+            {point.id}
           </span>
           /
           <span className={styles.timeline__controls__counter__total}>
@@ -103,20 +97,20 @@ export const DesktopLayout = () => {
           <button 
             className={`${styles.timeline__button} ${styles['timeline__button--prev']}`}
             style={{
-              opacity: currentStep === 1 ? 0.5 : 1,
-              cursor: currentStep === 1 ? 'not-allowed' : 'pointer'
+              opacity: point.id === 1 ? 0.5 : 1,
+              cursor: point.id === 1 ? 'not-allowed' : 'pointer'
             }}
             onClick={handlePrevClick}
-            disabled={currentStep === 1}
+            disabled={point.id === 1}
           />
           <button 
             className={`${styles.timeline__button} ${styles['timeline__button--next']}`}
             style={{
-              opacity: currentStep === points.length ? 0.5 : 1,
-              cursor: currentStep === points.length ? 'not-allowed' : 'pointer'
+              opacity: point.id === points.length ? 0.5 : 1,
+              cursor: point.id === points.length ? 'not-allowed' : 'pointer'
             }}
             onClick={handleNextClick}
-            disabled={currentStep === points.length}
+            disabled={point.id === points.length}
           />
         </div>
       </div>
@@ -130,7 +124,7 @@ export const DesktopLayout = () => {
         spaceBetween={150}
         slidesPerView={3}
       >
-        {points[currentStep - 1].events.map((event, index) => (
+        {point.events.map((event, index) => (
           <SwiperSlide key={index} className={styles.timeline__event}>
             <div className={styles.timeline__date}>{event.date}</div>
             <p className={styles.timeline__description}>{event.description}</p>
@@ -139,6 +133,8 @@ export const DesktopLayout = () => {
         <div className="swiper-button-prev" />
         <div className="swiper-button-next" />
       </Swiper>
+      <div className={styles["vertical__line"]} />
+      <div className={styles["horizontal__line"]} />
     </div>
   );
 };

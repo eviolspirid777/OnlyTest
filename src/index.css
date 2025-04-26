@@ -19,8 +19,10 @@ code {
     monospace;
 }
 
-div.swiper-wrapper {
-  div.swiper-slide-next, div.swiper-slide-prev {
-    opacity: 0.5;
+@media (max-width: 376px) {
+  div.swiper-wrapper {
+    div.swiper-slide-next, div.swiper-slide-prev {
+      opacity: 0.5;
+    }
   }
 }

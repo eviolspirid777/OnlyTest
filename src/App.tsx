@@ -8,7 +8,7 @@ export const App = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 320);
+      setIsMobile(window.innerWidth < 376);
     };
 
     window.addEventListener('resize', handleResize);

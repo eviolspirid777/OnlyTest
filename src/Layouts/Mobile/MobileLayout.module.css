@@ -32,8 +32,7 @@
 
 .timeline__years {
   display: flex;
-  justify-content: flex-start;
-  gap: 30px;
+  justify-content: space-between;
   margin: 30px 0px;
 }
 
@@ -74,6 +73,10 @@
 }
 
 .navigation-block {
+  z-index: 2;
+  position: absolute;
+  left: 0%;
+  bottom: 0%;
   display: flex;
   flex-flow: column nowrap;
   gap: 10px;
@@ -89,48 +92,63 @@
   letter-spacing: 0%;
 }
 
-:global(.swiper-button-prev-mobile),
-:global(.swiper-button-next-mobile) {
+.swiper-block {
   position: relative;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 1px solid #42567A80;
-  color: transparent;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-
-:global(.swiper-button-prev-mobile)::after,
-:global(.swiper-button-next-mobile)::after {
-  content: "";
-  position: absolute;
-  left: 40%;
-  top: 35%;
-  width: 5px;
-  height: 5px;
-  border-right: 2px solid var(--timeline-color-text);
-  border-bottom: 2px solid var(--timeline-color-text);
-  position: absolute;
-}
-
-:global(.swiper-button-prev-mobile)::after {
-  transform: rotate(135deg);
-}
-
-:global(.swiper-button-next-mobile)::after {
-  transform: rotate(-45deg);
-  margin-left: -2px;
-}
-
-:global(.swiper-button-disabled) {
-  opacity: 0.5 !important;
-  cursor: default;
-}
-
-/*TODO: сделать отступ для пагинации сверху и переопределить базовый цвет*/
-:global(.swiper-pagination) {
-  padding-top: 50px;
+@media (max-width: 376px) {
+  :global(.swiper) {
+    z-index: 1;
+    height: 255px;
+  }
+  
+  :global(.swiper-button-prev-mobile),
+  :global(.swiper-button-next-mobile) {
+    position: relative;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid #42567A80;
+    color: transparent;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  :global(.swiper-button-prev-mobile)::after,
+  :global(.swiper-button-next-mobile)::after {
+    content: "";
+    position: absolute;
+    left: 40%;
+    top: 35%;
+    width: 5px;
+    height: 5px;
+    border-right: 2px solid var(--timeline-color-text);
+    border-bottom: 2px solid var(--timeline-color-text);
+    position: absolute;
+  }
+  
+  :global(.swiper-button-prev-mobile)::after {
+    transform: rotate(135deg);
+  }
+  
+  :global(.swiper-button-next-mobile)::after {
+    transform: rotate(-45deg);
+    margin-left: -2px;
+  }
+  
+  :global(.swiper-button-disabled) {
+    opacity: 0.5 !important;
+    cursor: default;
+  }
+  
+  :global(.swiper-pagination-bullet) {
+    background-color: var(--timeline-color-text);
+    opacity: 0.5;
+  }
+  
+  :global(.swiper-pagination-bullet-active) {
+    background-color: var(--timeline-color-text);
+    opacity: 1;
+  }
 }
 
 @media (max-width: 277px) {
