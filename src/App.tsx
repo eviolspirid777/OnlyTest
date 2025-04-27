@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-import { DesktopLayout } from './layouts/Desktop/DesktopLayout';
-import { MobileLayout } from './layouts/Mobile/MobileLayout';
+import { DesktopLayout } from './Layouts/Desktop/DesktopLayout';
+import { MobileLayout } from './Layouts/Mobile/MobileLayout';
 
 export const App = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 320);

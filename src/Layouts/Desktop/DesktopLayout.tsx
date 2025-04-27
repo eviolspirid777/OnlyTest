@@ -18,7 +18,7 @@ export const DesktopLayout = () => {
   }
   const [point, setPoint] = useReducer<Reducer<PointWithRef, number>>(reducer, points[0])
 
-  const [currentCategory, setCurrentCategory] = useState(points[2].id);
+  const [currentCategory, setCurrentCategory] = useState<number | null>(points[2].id);
   const [hoveredCategory, setHoveredCategory] = useState<number | null>(points[2].id);
 
   const handlePrevClick = () => {
@@ -39,15 +39,19 @@ export const DesktopLayout = () => {
     }
   }
 
-  const handleCategorySelect = (id: number) => {
+  const handleCategorySelect = (id: number | null) => {
     setCurrentCategory(id);
-    setPoint(id - 1)
-    changePointStatus(points[id - 1]);
+    if (id !== null) {
+      setPoint(id - 1);
+      changePointStatus(points[id - 1]);
+    }
   };
 
-  const handleCategoryHover = (id: number) => {
+  const handleCategoryHover = (id: number | null) => {
     setHoveredCategory(id);
-    changePointStatus(points[id - 1]);
+    if (id !== null) {
+      changePointStatus(points[id - 1]);
+    }
   };
 
   const handleCategoryLeave = () => {

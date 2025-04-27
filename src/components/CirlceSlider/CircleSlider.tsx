@@ -1,19 +1,19 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './CircleSlider.module.css';
 import { PointWithRef } from '../../types/Point';
 import gsap from 'gsap';
-
-interface CircleSliderProps {
+import type { FC } from 'react';
+type CircleSliderProps = {
   points: PointWithRef[];
-  currentPoint: number;
+  currentPoint: number | null;
   hoveredPoint: number | null;
-  onPointClick: (id: number) => void;
-  onPointHover: (id: number) => void;
+  onPointClick: (id: number | null) => void;
+  onPointHover: (id: number | null) => void;
   onPointLeave: () => void;
   onPointsReorder?: (newPoints: PointWithRef[]) => void;
 }
 
-export const CircleSlider: React.FC<CircleSliderProps> = ({
+export const CircleSlider: FC<CircleSliderProps> = ({
   points,
   currentPoint,
   hoveredPoint,
@@ -25,16 +25,16 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
   const radius = 265;
   const center = 300;
   const prevPointRef = useRef(hoveredPoint);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     const timeline = gsap.timeline();
     
     points.forEach(point => {
       if (point.ref.current) {
-        const isActive = point.id === hoveredPoint;
+        const isActive = !isAnimating && point.id === hoveredPoint;
         const wasActive = point.id === prevPointRef.current;
         
-        // Анимация основной точки
         const mainPoint = point.ref.current.querySelector(`.${styles.point}`);
         if (mainPoint) {
           if (isActive && !wasActive) {
@@ -52,7 +52,6 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
           }, 0);
         }
 
-        // Анимация белой точки внутри
         const innerPoint = point.ref.current.querySelector(`.${styles.innerPoint}`);
         if (innerPoint) {
           if (isActive && !wasActive) {
@@ -75,7 +74,6 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
           }, 0);
         }
 
-        // Анимация текста
         const texts = point.ref.current.querySelectorAll(`.${styles.categoryText}`);
         texts.forEach(text => {
           gsap.set(text, {
@@ -92,41 +90,24 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
     });
 
     prevPointRef.current = hoveredPoint;
-  }, [hoveredPoint, points]);
+  }, [hoveredPoint, points, isAnimating]);
 
   const calculateNewPoints = (
     array: PointWithRef[], 
-    startIndex: number, 
-    destinyIndex: number
+    startId: number, 
+    destinyId: number
   ): { steps: number; newArray: PointWithRef[] } => {
-    const startPos = array.findIndex(point => point.id === startIndex);
-    const destinyPos = array.findIndex(point => point.id === destinyIndex);
-    
+    const startPos = array.findIndex(point => point.id === startId);
+    const destinyPos = array.findIndex(point => point.id === destinyId);
+  
     if (startPos === -1 || destinyPos === -1) return { steps: 0, newArray: array };
-    
-    // Создаем копию массива для манипуляций
+  
+    let steps = (destinyPos - startPos + array.length) % array.length;
+  
     const newArray = [...array];
-    let steps = 0;
-    
-    // Если текущая позиция больше целевой, нужно пройти через конец массива
-    if (startPos > destinyPos) {
-      steps = array.length - startPos + destinyPos;
-      
-      // Перемещаем элементы через конец массива
-      for (let i = 0; i < steps; i++) {
-        const lastElement = newArray.pop()!;
-        newArray.unshift(lastElement);
-      }
-    } else {
-      steps = destinyPos - startPos;
-      
-      // Перемещаем элементы вправо
-      for (let i = 0; i < steps; i++) {
-        const firstElement = newArray.shift()!;
-        newArray.push(firstElement);
-      }
-    }
-    
+    const [moved] = newArray.splice(startPos, 1);
+    newArray.splice(destinyPos, 0, moved);
+  
     return { steps, newArray };
   }
 
@@ -144,10 +125,17 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
       rotateZ: rotationAngle,
       duration: 1,
       ease: "power2.inOut",
+      onStart: () => {
+        setIsAnimating(true);
+        onPointHover(null);
+        onPointClick(null);
+      },
       onComplete: () => {
         if (onPointsReorder) {
           onPointsReorder(newArray);
+          onPointHover(id);
           onPointClick(id);
+          setIsAnimating(false);
           gsap.set(container, {
             rotateZ: 0,
             duration: 0
@@ -185,7 +173,7 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
         />
         {points.map((point, index) => {
           const { x, y } = getPointCoordinates(index, points.length);
-          const isActive = point.id === currentPoint;
+          const isActive = !isAnimating && point.id === currentPoint;
 
           return (
             <g
@@ -197,14 +185,12 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
               onMouseLeave={onPointLeave}
               onClick={handleRotateContainer.bind(null, point.id)}
             >
-              {/* Кликабельная область */}
               <circle
                 r="21"
                 fill="transparent"
                 className={styles.hitArea}
               />
 
-              {/* Основная точка */}
               <circle
                 r="3"
                 fill={isActive ? '#303E5880' : "#42567A"}
@@ -245,4 +231,4 @@ export const CircleSlider: React.FC<CircleSliderProps> = ({
       </svg>
     </div>
   );
-};
+}; 
