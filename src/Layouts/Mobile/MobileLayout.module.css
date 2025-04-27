@@ -14,7 +14,7 @@
     color: var(--border-color);
     border: 1px solid var(--border-color);
   }
-  
+
   div > h3 {
     font-family: "PT Sans";
     padding-left: 6px;
@@ -100,7 +100,7 @@
     z-index: 1;
     height: 255px;
   }
-  
+
   :global(.swiper-button-prev-mobile),
   :global(.swiper-button-next-mobile) {
     position: relative;
@@ -108,11 +108,13 @@
     height: 25px;
     border-radius: 50%;
     background: #ffffff;
-    border: 1px solid #42567A80;
+    border: 1px solid #42567a80;
     color: transparent;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
   }
-  
+
   :global(.swiper-button-prev-mobile)::after,
   :global(.swiper-button-next-mobile)::after {
     content: "";
@@ -125,26 +127,26 @@
     border-bottom: 2px solid var(--timeline-color-text);
     position: absolute;
   }
-  
+
   :global(.swiper-button-prev-mobile)::after {
     transform: rotate(135deg);
   }
-  
+
   :global(.swiper-button-next-mobile)::after {
     transform: rotate(-45deg);
     margin-left: -2px;
   }
-  
+
   :global(.swiper-button-disabled) {
     opacity: 0.5 !important;
     cursor: default;
   }
-  
+
   :global(.swiper-pagination-bullet) {
     background-color: var(--timeline-color-text);
     opacity: 0.5;
   }
-  
+
   :global(.swiper-pagination-bullet-active) {
     background-color: var(--timeline-color-text);
     opacity: 1;

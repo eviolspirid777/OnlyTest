@@ -8,7 +8,7 @@ interface AnimatedNumberProps {
 
 export const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
   value,
-  className
+  className,
 }) => {
   const numberRef = useRef<HTMLSpanElement>(null);
   const prevValueRef = useRef(value);
@@ -24,11 +24,15 @@ export const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
           if (numberRef.current) {
             numberRef.current.textContent = Math.round(obj.val).toString();
           }
-        }
+        },
       });
       prevValueRef.current = value;
     }
   }, [value]);
 
-  return <span ref={numberRef} className={className}>{value}</span>;
+  return (
+    <span ref={numberRef} className={className}>
+      {value}
+    </span>
+  );
 };

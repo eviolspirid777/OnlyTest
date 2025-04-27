@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import { DesktopLayout } from './Layouts/Desktop/DesktopLayout';
-import { MobileLayout } from './Layouts/Mobile/MobileLayout';
+import { DesktopLayout } from "./Layouts/Desktop/DesktopLayout";
+import { MobileLayout } from "./Layouts/Mobile/MobileLayout";
 
 export const App = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 320);
@@ -11,10 +11,10 @@ export const App = () => {
       setIsMobile(window.innerWidth < 376);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 

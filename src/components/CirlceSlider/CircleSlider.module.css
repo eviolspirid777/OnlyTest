@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'PT Sans';
-  src: url('../../../public/fonts/PT_Sans/PTSans-Regular.ttf') format('truetype');
+  font-family: "PT Sans";
+  src: url("../../../public/fonts/PT_Sans/PTSans-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -44,12 +44,13 @@
   cursor: pointer;
 }
 
-.point, .innerPoint {
+.point,
+.innerPoint {
   will-change: r, fill, opacity;
 }
 
 .categoryText {
-  font-family: 'PT Sans', sans-serif;
+  font-family: "PT Sans", sans-serif;
   will-change: opacity;
   pointer-events: none;
   font-weight: 700;

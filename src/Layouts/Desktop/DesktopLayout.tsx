@@ -1,25 +1,32 @@
-import { Reducer, useReducer, useState } from 'react';
-import { AnimatedNumber } from '../../components/AnimatedNumber/AnimatedNumber';
-import { CircleSlider } from '../../components/CirlceSlider/CircleSlider';
-import type { PointWithRef } from '../../types/Point';
-import gsap from 'gsap';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
-import { mockPoints } from '../../mock/mockData';
+import { Reducer, useReducer, useState } from "react";
+import { AnimatedNumber } from "../../components/AnimatedNumber/AnimatedNumber";
+import { CircleSlider } from "../../components/CirlceSlider/CircleSlider";
+import type { PointWithRef } from "../../types/Point";
+import gsap from "gsap";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import { mockPoints } from "../../mock/mockData";
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import styles from './DesktopLayout.module.css';
+import "swiper/css";
+import "swiper/css/navigation";
+import styles from "./DesktopLayout.module.css";
 
 export const DesktopLayout = () => {
   const [points, setPoints] = useState(mockPoints);
   const reducer = (state: PointWithRef, action: number) => {
-    return mockPoints[action]
-  }
-  const [point, setPoint] = useReducer<Reducer<PointWithRef, number>>(reducer, points[0])
+    return mockPoints[action];
+  };
+  const [point, setPoint] = useReducer<Reducer<PointWithRef, number>>(
+    reducer,
+    points[0]
+  );
 
-  const [currentCategory, setCurrentCategory] = useState<number | null>(points[2].id);
-  const [hoveredCategory, setHoveredCategory] = useState<number | null>(points[2].id);
+  const [currentCategory, setCurrentCategory] = useState<number | null>(
+    points[2].id
+  );
+  const [hoveredCategory, setHoveredCategory] = useState<number | null>(
+    points[2].id
+  );
 
   const handlePrevClick = () => {
     point.id !== 1 && setPoint(point.id - 2);
@@ -37,7 +44,7 @@ export const DesktopLayout = () => {
         ease: "power2.inOut",
       });
     }
-  }
+  };
 
   const handleCategorySelect = (id: number | null) => {
     setCurrentCategory(id);
@@ -56,24 +63,24 @@ export const DesktopLayout = () => {
 
   const handleCategoryLeave = () => {
     setHoveredCategory(points[2].id);
-    setCurrentCategory(points[2].id)
-  }
+    setCurrentCategory(points[2].id);
+  };
 
   return (
     <div className={styles.timeline}>
       <div className={styles.timeline__header}>
         <h1 className={styles.timeline__title}>Исторические даты</h1>
       </div>
-      
+
       <div className={styles.timeline__content}>
         <div className={styles.timeline__years}>
-          <AnimatedNumber 
-            value={point.date.minDate} 
-            className={`${styles.timeline__year} ${styles['timeline__year--start']}`}
+          <AnimatedNumber
+            value={point.date.minDate}
+            className={`${styles.timeline__year} ${styles["timeline__year--start"]}`}
           />
-          <AnimatedNumber 
+          <AnimatedNumber
             value={point.date.maxDate}
-            className={`${styles.timeline__year} ${styles['timeline__year--end']}`}
+            className={`${styles.timeline__year} ${styles["timeline__year--end"]}`}
           />
         </div>
         <CircleSlider
@@ -98,20 +105,20 @@ export const DesktopLayout = () => {
           </span>
         </div>
         <div className={styles.timeline__controls__buttons}>
-          <button 
-            className={`${styles.timeline__button} ${styles['timeline__button--prev']}`}
+          <button
+            className={`${styles.timeline__button} ${styles["timeline__button--prev"]}`}
             style={{
               opacity: point.id === 1 ? 0.5 : 1,
-              cursor: point.id === 1 ? 'not-allowed' : 'pointer'
+              cursor: point.id === 1 ? "not-allowed" : "pointer",
             }}
             onClick={handlePrevClick}
             disabled={point.id === 1}
           />
-          <button 
-            className={`${styles.timeline__button} ${styles['timeline__button--next']}`}
+          <button
+            className={`${styles.timeline__button} ${styles["timeline__button--next"]}`}
             style={{
               opacity: point.id === points.length ? 0.5 : 1,
-              cursor: point.id === points.length ? 'not-allowed' : 'pointer'
+              cursor: point.id === points.length ? "not-allowed" : "pointer",
             }}
             onClick={handleNextClick}
             disabled={point.id === points.length}
@@ -122,8 +129,8 @@ export const DesktopLayout = () => {
         className={styles.timeline__events}
         modules={[Navigation]}
         navigation={{
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
         }}
         spaceBetween={150}
         slidesPerView={3}
