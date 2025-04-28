@@ -8,7 +8,7 @@ import { PointWithRef } from "../../types/Point";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import styles from "./MobileLayout.module.css";
+import styles from "./MobileLayout.module.scss";
 
 const reducer = (state: PointWithRef, action: number) => {
   return mockPoints[action];
@@ -67,7 +67,8 @@ export const MobileLayout = () => {
         </Swiper>
         <div className={styles["navigation-block"]}>
           <span className={styles["navigation-block-title"]}>
-            {point.id}/{mockPoints[0].events.length}
+            {point.id.toString().padStart(2, "0")}/
+            {mockPoints[0].events.length.toString().padStart(2, "0")}
           </span>
           <div className={styles["navigation-buttons-block"]}>
             <div

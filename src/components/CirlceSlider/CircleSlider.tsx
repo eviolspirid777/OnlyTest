@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "./CircleSlider.module.css";
 import { PointWithRef } from "../../types/Point";
 import gsap from "gsap";
 import type { FC } from "react";
+
+import styles from "./CircleSlider.module.scss";
 
 type CircleSliderProps = {
   points: PointWithRef[];

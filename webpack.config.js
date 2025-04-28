@@ -22,6 +22,21 @@ module.exports = {
         }
       },
       {
+        test: /\.s[ac]ss$/i,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[name]__[local]--[hash:base64:5]'
+              }
+            }
+          },
+          'sass-loader'
+        ]
+      },
+      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       },
@@ -32,7 +47,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js', '.jsx']
+    extensions: ['.tsx', '.ts', '.js', '.jsx', '.scss', '.sass']
   },
   plugins: [
     new HtmlWebpackPlugin({

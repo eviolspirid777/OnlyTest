@@ -9,16 +9,17 @@ import { mockPoints } from "../../mock/mockData";
 
 import "swiper/css";
 import "swiper/css/navigation";
-import styles from "./DesktopLayout.module.css";
+import styles from "./DesktopLayout.module.scss";
 
 export const DesktopLayout = () => {
   const [points, setPoints] = useState(mockPoints);
+
   const reducer = (state: PointWithRef, action: number) => {
     return mockPoints[action];
   };
   const [point, setPoint] = useReducer<Reducer<PointWithRef, number>>(
     reducer,
-    points[0]
+    points[2]
   );
 
   const [currentCategory, setCurrentCategory] = useState<number | null>(
@@ -97,11 +98,11 @@ export const DesktopLayout = () => {
       <div className={styles.timeline__controls}>
         <div className={styles.timeline__controls__counter__block}>
           <span className={styles.timeline__controls__counter__current}>
-            {point.id}
+            {point.id.toString().padStart(2, "0")}
           </span>
           /
           <span className={styles.timeline__controls__counter__total}>
-            {points.length}
+            {points.length.toString().padStart(2, "0")}
           </span>
         </div>
         <div className={styles.timeline__controls__buttons}>

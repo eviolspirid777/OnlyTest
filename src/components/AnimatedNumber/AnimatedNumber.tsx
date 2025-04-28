@@ -1,12 +1,12 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, FC } from "react";
 import gsap from "gsap";
 
-interface AnimatedNumberProps {
+type AnimatedNumberProps = {
   value: number;
   className?: string;
 }
 
-export const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
+export const AnimatedNumber: FC<AnimatedNumberProps> = ({
   value,
   className,
 }) => {
